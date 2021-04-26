@@ -1,86 +1,60 @@
 package pharmacy;
 
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JToolBar;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.text.DefaultCaret;
-
 import java.awt.Font;
-import java.awt.LayoutManager;
-
 import javax.swing.JComboBox;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Panel;
 import javax.swing.SwingConstants;
-import java.awt.GridLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class DesktopApp {
 
-	private JFrame frame;
-	private JFrame frame2;
-	public JTable table1;
-	public JTable table2;
-	public JTable table3;
-	public JTable table4;
-	public JTable table5;
-	public JTable table6;
-	public JTable table7;
-	public JTable table8;
+	private JFrame Frame;
+	public JTable Table1;
+	public JTable Table2;
+	public JTable Table3;
+	public JTable Table4;
+	public JTable Table5;
+	public JTable Table6;
+	public JTable Table7;
+	public JTable Table8;
 	private JTextField MedicineTextField;
 	private JTextField PharmacyTextField;
 	private JTextField PharmacyTextField2;
 	private JComboBox CityComboBox;
 	private JComboBox MonthComboBox;
 	private JComboBox YearComboBox;
-	private JComboBox yearComboBox2;
+	private JComboBox YearComboBox2;
 	private JComboBox CategoryComboBox;
-	private Panel parentPanel;
-	private Panel childPanel1;
-	private JPanel childPanel2;
+	private Panel ParentPanel;
+	private Panel ChildPanel1;
+	private JPanel ChildPanel2;
 	private JButton SearchByCityButton;
 
-	//database connection settings
-	private String url="jdbc:mysql://localhost:3306/pharmacy_database";
-	private	String user="root";
-	private	String password="familiabodin";
-	private	Connection conn=null;
-	private PharmacyAPI api;
+	//database Connection settings
+	private String Url="jdbc:mysql://localhost:3306/pharmacy_database";
+	private	String User="root";
+	private	String Password="familiabodin";
+	private	Connection Conn=null;
+	private PharmacyAPI Api;
 
 	/**
 	 * Launch the application.
@@ -90,7 +64,7 @@ public class DesktopApp {
 			public void run() {
 				try {
 					DesktopApp window = new DesktopApp();
-					window.frame.setVisible(true);
+					window.Frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -106,29 +80,29 @@ public class DesktopApp {
 	}
 	//remove all existent tables before adding a new one
 	public void RemoveTables() {
-		if(table1!=null) {
-			parentPanel.remove(table1);
+		if(Table1!=null) {
+			ParentPanel.remove(Table1);
 		}
-		if(table2!=null) {
-			parentPanel.remove(table2);
+		if(Table2!=null) {
+			ParentPanel.remove(Table2);
 		}
-		if(table3!=null) {
-			parentPanel.remove(table3);
+		if(Table3!=null) {
+			ParentPanel.remove(Table3);
 		}
-		if(table4!=null) {
-			parentPanel.remove(table4);
+		if(Table4!=null) {
+			ParentPanel.remove(Table4);
 		}
-		if(table5!=null) {
-			parentPanel.remove(table5);
+		if(Table5!=null) {
+			ParentPanel.remove(Table5);
 		}
-		if(table6!=null) {
-			parentPanel.remove(table6);
+		if(Table6!=null) {
+			ParentPanel.remove(Table6);
 		}
-		if(table7!=null) {
-			parentPanel.remove(table7);
+		if(Table7!=null) {
+			ParentPanel.remove(Table7);
 		}
-		if(table8!=null) {
-			parentPanel.remove(table8);
+		if(Table8!=null) {
+			ParentPanel.remove(Table8);
 		}
 	}
 
@@ -138,28 +112,28 @@ public class DesktopApp {
 		if(medicine.length()>0 ) {
 			RemoveTables();
 			//create a new one
-			table3= new JTable();
+			Table3= new JTable();
 			//configure the width for each column
 			int[] width= { 60, 150, 70, 120, 80 };
 			//configure the name for column header
 			String[] names={ "Code", "PharmacyName", "CityCode", "MedicineName", "Quantity" };
 			//create the table
-			CreateNewTable(table3, width, names);
-			//add the table to the frame
-			parentPanel.add(table3);
+			CreateNewTable(Table3, width, names);
+			//add the table to the Frame
+			ParentPanel.add(Table3);
 
 			//create a list of pharmacies to store the results from the query
-			List<PharmacyStockMedModel> list= api.GetPharmaciesFilteredByMedicine(conn, url, user, password, medicine);
+			List<PharmacyStockMedModel> list= Api.GetPharmaciesFilteredByMedicine(Conn, Url, User, Password, medicine);
 			if(list.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "The medicine name doesn't exist!");
 			}
 			else {
 				//retrieve the table model
-				DefaultTableModel model = (DefaultTableModel) table3.getModel();
+				DefaultTableModel model = (DefaultTableModel) Table3.getModel();
 				//add first row
 				model.addRow(names);
 				//set the first row to have bold text
-				table3.setDefaultRenderer(Object.class, new FirstRowBold());
+				Table3.setDefaultRenderer(Object.class, new FirstRowBold());
 				//iterate the results from query and add them to the table
 				for(PharmacyStockMedModel p : list)
 				{
@@ -180,24 +154,24 @@ public class DesktopApp {
 		if(city.length()>0 ) {
 			RemoveTables();
 			//create a new one
-			table2= new JTable();
+			Table2= new JTable();
 			//configure the width for each column
 			int[] width= { 40, 60, 150, 500, 120, 80 };
 			//configure the name for column header
 			String[] names={ "ID", "Code", "Name", "Adress", "Phone", "CityCode" };
 			//create the table
-			CreateNewTable(table2, width, names);
-			//add the table to the frame
-			parentPanel.add(table2);
+			CreateNewTable(Table2, width, names);
+			//add the table to the Frame
+			ParentPanel.add(Table2);
 
 			//create a list of pharmacies to store the results from the query
-			List<PharmacyModel> list= api.GetPharmciesFilteredByCity(conn, url, user, password, city);
+			List<PharmacyModel> list= Api.GetPharmciesFilteredByCity(Conn, Url, User, Password, city);
 			//retrieve the table model
-			DefaultTableModel model = (DefaultTableModel) table2.getModel();
+			DefaultTableModel model = (DefaultTableModel) Table2.getModel();
 			//add first row
 			model.addRow(names);
 			//set the first row to have bold text
-			table2.setDefaultRenderer(Object.class, new FirstRowBold());
+			Table2.setDefaultRenderer(Object.class, new FirstRowBold());
 
 			//iterate the results from query and add them to the table
 			for(PharmacyModel p : list)
@@ -219,28 +193,28 @@ public class DesktopApp {
 		if(city.length()>0 && medicine.length()>0 ) {
 			RemoveTables();
 			//create a new table
-			table4= new JTable();
+			Table4= new JTable();
 			//configure the width for each column
 			int[] width= { 80, 150, 120 };
 			//configure the name for column header
 			String[] names={ "CityCode", "MedicineName", "TotalQuantity" };
 			//create the table
-			CreateNewTable(table4, width, names);
-			//add the table to the frame
-			parentPanel.add(table4);
+			CreateNewTable(Table4, width, names);
+			//add the table to the Frame
+			ParentPanel.add(Table4);
 
 			//create a list of pharmacies to store the results from the query
-			List<PharmacyStockMedModel> list= api.GetPharmaciesFilteredByMedicineAndCity(conn, url, user, password, medicine, city);
+			List<PharmacyStockMedModel> list= Api.GetPharmaciesFilteredByMedicineAndCity(Conn, Url, User, Password, medicine, city);
 			if(list.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "The medicine name or city doesn't exist!");
 			}
 			else {
 				//retrieve the table model
-				DefaultTableModel model = (DefaultTableModel) table4.getModel();
+				DefaultTableModel model = (DefaultTableModel) Table4.getModel();
 				//add first row
 				model.addRow(names);
 				//set the first row to have bold text
-				table4.setDefaultRenderer(Object.class, new FirstRowBold());
+				Table4.setDefaultRenderer(Object.class, new FirstRowBold());
 				//iterate the results from query and add them to the table
 				for(PharmacyStockMedModel p : list)
 				{
@@ -263,28 +237,28 @@ public class DesktopApp {
 		if(pharmacy.length()>0 && category.length()>0 && year.length()>0) {
 			RemoveTables();
 			//create a new table
-			table7= new JTable();
+			Table7= new JTable();
 			//configure the width for each column
 			int[] width= { 80, 150, 150, 150, 150 };
 			//configure the name for column header
 			String[] names={ "Code", "PharmacyName", "ShippingDate", "NumberOfOrders", "CategoryName" };
 			//create the table
-			CreateNewTable(table7, width, names);
-			//add the table to the frame
-			parentPanel.add(table7);
+			CreateNewTable(Table7, width, names);
+			//add the table to the Frame
+			ParentPanel.add(Table7);
 
 			//create a list of orders to store the results from the query
-			List<OrderPharmacyMonthModel> list = api.GetOrdersFilteredByPharmacyCategoryAndYear(conn, url, user, password, pharmacy, category, year);
+			List<OrderPharmacyMonthModel> list = Api.GetOrdersFilteredByPharmacyCategoryAndYear(Conn, Url, User, Password, pharmacy, category, year);
 			if(list.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "No results!");
 			}
 			else {
 				//retrieve the table model
-				DefaultTableModel model = (DefaultTableModel) table7.getModel();
+				DefaultTableModel model = (DefaultTableModel) Table7.getModel();
 				//add first row
 				model.addRow(names);
 				//set the first row to have bold text
-				table7.setDefaultRenderer(Object.class, new FirstRowBold());
+				Table7.setDefaultRenderer(Object.class, new FirstRowBold());
 				//iterate the results from query and add them to the table
 				for(OrderPharmacyMonthModel p : list)
 				{
@@ -306,28 +280,28 @@ public class DesktopApp {
 		if(month.length()>0 && pharmacy.length()>0 ) {
 			RemoveTables();
 			//create a new table
-			table5= new JTable();
+			Table5= new JTable();
 			//configure the width for each column
 			int[] width= { 80, 150, 150, 150, 150, 150 };
 			//configure the name for column header
 			String[] names={ "Code", "PharmacyName", "ShippingDate", "NumberOfOrders", "TotalSum" ,"AvgPricePerOrder" };
 			//create the table
-			CreateNewTable(table5, width, names);
-			//add the table to the frame
-			parentPanel.add(table5);
+			CreateNewTable(Table5, width, names);
+			//add the table to the Frame
+			ParentPanel.add(Table5);
 
 			//create a list of orders to store the results from the query
-			List<OrderPharmacyMonthModel> list= api.GetOrdersFilteredByPharmacyAndMonth(conn, url, user, password, pharmacy, month);
+			List<OrderPharmacyMonthModel> list= Api.GetOrdersFilteredByPharmacyAndMonth(Conn, Url, User, Password, pharmacy, month);
 			if(list.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "The pharmacy name doesn't exist!");
 			}
 			else {
 				//retrieve the table model
-				DefaultTableModel model = (DefaultTableModel) table5.getModel();
+				DefaultTableModel model = (DefaultTableModel) Table5.getModel();
 				//add first row
 				model.addRow(names);
 				//set the first row to have bold text
-				table5.setDefaultRenderer(Object.class, new FirstRowBold());
+				Table5.setDefaultRenderer(Object.class, new FirstRowBold());
 				//iterate the results from query and add them to the table
 				for(OrderPharmacyMonthModel p : list)
 				{
@@ -344,33 +318,33 @@ public class DesktopApp {
 	
 	private void GetBiggestOrder() {
 
-		String year= yearComboBox2.getSelectedItem().toString();
+		String year= YearComboBox2.getSelectedItem().toString();
 		
 		if(year.length()>0) {
 			RemoveTables();
 			//create a new table
-			table8 = new JTable();
+			Table8 = new JTable();
 			//configure the width for each column
 			int[] width= { 80, 150, 150, 150 };
 			//configure the name for column header
 			String[] names={ "Code", "PharmacyName", "ShippingDate", "TotalSum" };
 			//create the table
-			CreateNewTable(table8, width, names);
-			//add the table to the frame
-			parentPanel.add(table8);
+			CreateNewTable(Table8, width, names);
+			//add the table to the Frame
+			ParentPanel.add(Table8);
 
 			//create a list of orders to store the results from the query
-			List<OrderPharmacyMonthModel> list= api.GetTheBiggestOrder(conn, url, user, password, year);
+			List<OrderPharmacyMonthModel> list= Api.GetTheBiggestOrder(Conn, Url, User, Password, year);
 			if(list.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "No results!");
 			}
 			else {
 				//retrieve the table model
-				DefaultTableModel model = (DefaultTableModel) table8.getModel();
+				DefaultTableModel model = (DefaultTableModel) Table8.getModel();
 				//add first row
 				model.addRow(names);
 				//set the first row to have bold text
-				table8.setDefaultRenderer(Object.class, new FirstRowBold());
+				Table8.setDefaultRenderer(Object.class, new FirstRowBold());
 				//iterate the results from query and add them to the table
 				for(OrderPharmacyMonthModel p : list)
 				{
@@ -387,9 +361,9 @@ public class DesktopApp {
 	
 	public void CreatePanel()
 	{
-		api=new PharmacyAPI();
-		childPanel1 = new Panel();
-		childPanel1.setBounds(0, 0, 1197, 130);
+		Api=new PharmacyAPI();
+		ChildPanel1 = new Panel();
+		ChildPanel1.setBounds(0, 0, 1197, 130);
 
 		CityComboBox = new JComboBox();
 		CityComboBox.setBounds(159, 21, 135, 23);
@@ -413,12 +387,12 @@ public class DesktopApp {
 				SearchByMedicine();
 			}
 		});
-		parentPanel.setLayout(null);
+		ParentPanel.setLayout(null);
 
-		parentPanel.add(childPanel1);
-		childPanel1.setLayout(null);
-		childPanel1.add(CityComboBox);
-		childPanel1.add(MedicineTextField);
+		ParentPanel.add(ChildPanel1);
+		ChildPanel1.setLayout(null);
+		ChildPanel1.add(CityComboBox);
+		ChildPanel1.add(MedicineTextField);
 
 
 		//Filter stocks by medicine and city
@@ -431,25 +405,25 @@ public class DesktopApp {
 				SearchByCityAndMedicine();
 			}
 		});
-		childPanel1.add(TotalQuantitiesButton);
-		childPanel1.add(SearchByMedicineButton);
+		ChildPanel1.add(TotalQuantitiesButton);
+		ChildPanel1.add(SearchByMedicineButton);
 
 		JLabel lblNewLabel_1 = new JLabel("Enter a medicine:");
 		lblNewLabel_1.setBounds(20, 57, 122, 18);
-		childPanel1.add(lblNewLabel_1);
+		ChildPanel1.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setVisible(true);
 		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 14));
 
 		JLabel lblNewLabel = new JLabel("Choose a city:");
 		lblNewLabel.setBounds(20, 21, 101, 18);
-		childPanel1.add(lblNewLabel);
+		ChildPanel1.add(lblNewLabel);
 		lblNewLabel.setVisible(true);
 		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 14));
 
 		SearchByCityButton = new JButton("Search");
 		SearchByCityButton.setBounds(332, 17, 94, 27);
-		childPanel1.add(SearchByCityButton);
+		ChildPanel1.add(SearchByCityButton);
 		SearchByCityButton.setFont(new Font("Verdana", Font.PLAIN, 14));
 		
 		JButton btnNewButton = new JButton("Farmacy with biggest order");
@@ -460,16 +434,16 @@ public class DesktopApp {
 			}
 		});
 		btnNewButton.setBounds(973, 26, 203, 52);
-		childPanel1.add(btnNewButton);
+		ChildPanel1.add(btnNewButton);
 		
 		JLabel lblNewLabel_2 = new JLabel("Choose an year:");
 		lblNewLabel_2.setBounds(785, 34, 86, 29);
-		childPanel1.add(lblNewLabel_2);
+		ChildPanel1.add(lblNewLabel_2);
 		
-		yearComboBox2 = new JComboBox();
-		yearComboBox2.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021"}));
-		yearComboBox2.setBounds(881, 37, 67, 22);
-		childPanel1.add(yearComboBox2);
+		YearComboBox2 = new JComboBox();
+		YearComboBox2.setModel(new DefaultComboBoxModel(new String[] {"2019", "2020", "2021"}));
+		YearComboBox2.setBounds(881, 37, 67, 22);
+		ChildPanel1.add(YearComboBox2);
 		SearchByCityButton.setVisible(true);
 
 		//Search by City
@@ -478,19 +452,19 @@ public class DesktopApp {
 				SearchByCity();
 			}
 		});
-		parentPanel.revalidate();
-		parentPanel.repaint();
+		ParentPanel.revalidate();
+		ParentPanel.repaint();
 	}
 
 	public void CreatePanel2() {
-		parentPanel.remove(childPanel1);
-		parentPanel.revalidate();
-		parentPanel.repaint();
+		ParentPanel.remove(ChildPanel1);
+		ParentPanel.revalidate();
+		ParentPanel.repaint();
 		RemoveTables();
 
 		JLabel lblNewLabel = new JLabel("Choose a pharmacy:");
 		lblNewLabel.setBounds(20, 21, 155, 18);
-		childPanel2.add(lblNewLabel);
+		ChildPanel2.add(lblNewLabel);
 		lblNewLabel.setVisible(true);
 		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 14));
 
@@ -502,7 +476,7 @@ public class DesktopApp {
 
 		JLabel lblNewLabel_1 = new JLabel("Choose a month:");
 		lblNewLabel_1.setBounds(20, 57, 155, 18);
-		childPanel2.add(lblNewLabel_1);
+		ChildPanel2.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setVisible(true);
 		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -523,13 +497,13 @@ public class DesktopApp {
 			}
 		});
 		
-		childPanel2.add(PharmacyTextField);
-		childPanel2.add(MonthComboBox);
-		childPanel2.add(SearchByPharmacyButton);
+		ChildPanel2.add(PharmacyTextField);
+		ChildPanel2.add(MonthComboBox);
+		ChildPanel2.add(SearchByPharmacyButton);
 
 		JLabel lblNewLabe2 = new JLabel("Choose a pharmacy:");
 		lblNewLabe2.setBounds(700, 21, 155, 18);
-		childPanel2.add(lblNewLabe2);
+		ChildPanel2.add(lblNewLabe2);
 		lblNewLabe2.setVisible(true);
 		lblNewLabe2.setFont(new Font("Verdana", Font.PLAIN, 14));
 
@@ -541,7 +515,7 @@ public class DesktopApp {
 
 		JLabel lblNewLabel3 = new JLabel("Choose a category:");
 		lblNewLabel3.setBounds(700, 57, 155, 18);
-		childPanel2.add(lblNewLabel3);
+		ChildPanel2.add(lblNewLabel3);
 		lblNewLabel3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel3.setVisible(true);
 		lblNewLabel3.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -549,7 +523,7 @@ public class DesktopApp {
 		CategoryComboBox = new JComboBox();
 		CategoryComboBox.setBounds(850, 57, 135, 23);
 		CategoryComboBox.setVisible(true);
-		List<CategoryModel> list= api.GetCategories(conn, url, user, password);
+		List<CategoryModel> list= Api.GetCategories(Conn, Url, User, Password);
 		String[] categories=new String[20];
 		int i=0;
 		for(CategoryModel p : list)
@@ -561,7 +535,7 @@ public class DesktopApp {
 		
 		JLabel lblNewLabel4 = new JLabel("Choose an year:");
 		lblNewLabel4.setBounds(700, 90 , 155, 18);
-		childPanel2.add(lblNewLabel4);
+		ChildPanel2.add(lblNewLabel4);
 		lblNewLabel4.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel4.setVisible(true);
 		lblNewLabel4.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -582,14 +556,14 @@ public class DesktopApp {
 			}
 		});
 		
-		parentPanel.setLayout(null);
+		ParentPanel.setLayout(null);
 		
-		childPanel2.setLayout(null);
-		childPanel2.add(PharmacyTextField2);
-		childPanel2.add(CategoryComboBox);
-		childPanel2.add(YearComboBox);
-		childPanel2.add(SearchByCategoryButton);
-		parentPanel.add(childPanel2);
+		ChildPanel2.setLayout(null);
+		ChildPanel2.add(PharmacyTextField2);
+		ChildPanel2.add(CategoryComboBox);
+		ChildPanel2.add(YearComboBox);
+		ChildPanel2.add(SearchByCategoryButton);
+		ParentPanel.add(ChildPanel2);
 		
 		ShowAllOrders();
 
@@ -599,23 +573,23 @@ public class DesktopApp {
 	{
 		RemoveTables();
 		//create a new table
-		table1 = new JTable();
+		Table1 = new JTable();
 		//configure the width for each column
 		int[] width= { 40, 60, 150, 500, 120, 80 };
 		//configure the name for column header
 		String[] names={ "ID", "Code", "Name", "Adress", "Phone", "CityCode" };
 		//create the table
-		CreateNewTable(table1, width, names);
-		//add the table to the frame
-		parentPanel.add(table1);
+		CreateNewTable(Table1, width, names);
+		//add the table to the Frame
+		ParentPanel.add(Table1);
 		//create a list of pharmacies to store the results from the query
-		List<PharmacyModel> list= api.GetPharmacies(conn, url, user, password);
+		List<PharmacyModel> list= Api.GetPharmacies(Conn, Url, User, Password);
 		//retrieve the table model
-		DefaultTableModel model = (DefaultTableModel) table1.getModel();
+		DefaultTableModel model = (DefaultTableModel) Table1.getModel();
 		//add first row
 		model.addRow(names);
 		//set the first row to have bold text
-		table1.setDefaultRenderer(Object.class, new FirstRowBold());
+		Table1.setDefaultRenderer(Object.class, new FirstRowBold());
 		//iterate the results from query and add them to the table
 		for(PharmacyModel p : list)
 		{
@@ -628,23 +602,23 @@ public class DesktopApp {
 	{
 		RemoveTables();
 		//create a new table
-		table6 = new JTable();
+		Table6 = new JTable();
 		//configure the width for each column
 		int[] width= { 40, 60, 150, 150, 150, 150, 80 };
 		//configure the name for column header
 		String[] names={ "ID", "Code", "PharmacyName", "ShippingDate", "MedicineName", "MedicineQuantity", "Price" };
 		//create the table
-		CreateNewTable(table6, width, names);
-		//add the table to the frame
-		parentPanel.add(table6);
+		CreateNewTable(Table6, width, names);
+		//add the table to the Frame
+		ParentPanel.add(Table6);
 		//create a list of orders to store the results from the query
-		List<OrderModel> list= api.GetOrders(conn, url, user, password);
+		List<OrderModel> list= Api.GetOrders(Conn, Url, User, Password);
 		//retrieve the table model
-		DefaultTableModel model = (DefaultTableModel) table6.getModel();
+		DefaultTableModel model = (DefaultTableModel) Table6.getModel();
 		//add first row
 		model.addRow(names);
 		//set the first row to have bold text
-		table6.setDefaultRenderer(Object.class, new FirstRowBold());
+		Table6.setDefaultRenderer(Object.class, new FirstRowBold());
 		//iterate the results from query and add them to the table
 		for(OrderModel p : list)
 		{
@@ -698,28 +672,28 @@ public class DesktopApp {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the Frame.
 	 */
 	private void initialize() {
 
-		api=new PharmacyAPI();
+		Api=new PharmacyAPI();
 
-		//create the frame
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1213, 621);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		//create the Frame
+		Frame = new JFrame();
+		Frame.setBounds(100, 100, 1213, 621);
+		Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Frame.getContentPane().setLayout(null);
 
 		//create the parent panel
-		parentPanel = new Panel();
-		parentPanel.setBounds(0, 39, 1197, 543);
+		ParentPanel = new Panel();
+		ParentPanel.setBounds(0, 39, 1197, 543);
 
 		//add the components for the parent panel
 		CreatePanel();
 
-		//create a toolbar and add it directly to the frame
+		//create a toolbar and add it directly to the Frame
 		JToolBar toolBar = new JToolBar();
-		frame.getContentPane().add(toolBar);
+		Frame.getContentPane().add(toolBar);
 		toolBar.setBackground(new Color(0, 204, 255));
 		toolBar.setBounds(0, 0, 1197, 36);
 
@@ -741,8 +715,8 @@ public class DesktopApp {
 		});
 		toolBar.add(PharmaciesButton);
 
-		childPanel2 = new JPanel();
-		childPanel2.setBounds(0, 0, 1197, 130);
+		ChildPanel2 = new JPanel();
+		ChildPanel2.setBounds(0, 0, 1197, 130);
 
 		//Remove panel and add new components
 		JButton OrdersButton = new JButton("    Orders    ");
@@ -756,7 +730,7 @@ public class DesktopApp {
 			}
 		});
 		toolBar.add(OrdersButton);
-		frame.getContentPane().add(parentPanel);
+		Frame.getContentPane().add(ParentPanel);
 	}
 
 

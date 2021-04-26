@@ -1,5 +1,5 @@
 create or replace view Orders_meds_category2 as
-select Orders_meds_category.code, Orders_meds_category.pharmacy_name, Orders_meds_category.shipping_date, Orders_meds_category.id_order, pharmacy_database.categories.category_name
+select Orders_meds_category.code, Orders_meds_category.pharmacy_name, Orders_meds_category.shipping_date, Orders_meds_category.id_order, Orders_meds_category.meds_id_medicine, pharmacy_database.categories.category_name
 from pharmacy_database.meds_has_categories
 inner join pharmacy_database.categories on pharmacy_database.categories.id_categories=pharmacy_database.meds_has_categories.categories_id_categories
 inner join Orders_meds_category on Orders_meds_category.meds_id_medicine = pharmacy_database.meds_has_categories.meds_id_medicine

@@ -40,9 +40,6 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 		try {
 			conn=DriverManager.getConnection(url,user,password);
 			if(conn!=null) {
-				System.out.println("");
-				System.out.println("Pharmacies");
-				System.out.println("-----------------------------------------------------");
 				String sql = "SELECT * FROM pharmacies";
 				 
 				Statement statement = conn.createStatement();
@@ -51,8 +48,7 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 				while (result.next()){
 					PharmacyModel pharmacy = new PharmacyModel(result.getInt(1), result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6));
 					pharmacies.add(pharmacy);
-				    //System.out.printf("%d - %s - %s - %s - %s - %s\n", pharmacy.IdPharmacy, pharmacy.Code, pharmacy.PharmacyName, pharmacy.Adress, pharmacy.Phone, pharmacy.CitiesCityCode);
-				}
+				   }
 			}
 				
 		}catch (SQLException ex) {
@@ -103,9 +99,6 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 		try {
 			conn=DriverManager.getConnection(url,user,password);
 			if(conn!=null) {
-				System.out.println("");
-				System.out.println("Meds:");
-				System.out.println("-----------------------------------------------------");
 				String sql = "SELECT * FROM meds";
 				 
 				Statement statement = conn.createStatement();
@@ -113,8 +106,7 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 				
 				while (result.next()){
 					MedicineModel medicine=new MedicineModel(result.getInt(1), result.getString(2),result.getFloat(3));
-				    System.out.printf("%d - %s - %f\n", medicine.IdMedicine, medicine.MedicineName, medicine.Price);
-				}
+				   }
 			}
 				
 		}catch (SQLException ex) {
@@ -176,7 +168,6 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 				while (result.next()){
 					PharmacyModel pharmacy = new PharmacyModel(result.getInt(1), result.getString(2),result.getString(3),result.getString(4),result.getString(5),result.getString(6));
 					pharmacies.add(pharmacy);
-				    //System.out.printf("%s\n", result.getString(2));
 				}
 			}
 				
@@ -259,7 +250,6 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 		}
 		return pharmacies;
 	}
-	
 	public List<OrderPharmacyMonthModel> GetOrdersFilteredByPharmacyAndMonth(Connection conn, String url, String user, String password, String pharmacy, String month){
 		List<OrderPharmacyMonthModel> orders=new ArrayList<OrderPharmacyMonthModel>();
 		try {
@@ -293,7 +283,6 @@ public class PharmacyAPI implements PharmacyInterfaceAPI {
 		}
 		return orders;
 	}
-	
 	public List<OrderPharmacyMonthModel> GetOrdersFilteredByPharmacyCategoryAndYear(Connection conn, String url, String user, String password, String pharmacy, String category, String year){
 		List<OrderPharmacyMonthModel> orders=new ArrayList<OrderPharmacyMonthModel>();
 		try {
